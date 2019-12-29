@@ -1,0 +1,87 @@
+name:           roota
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/DavidEichmann/roota#readme>
+homepage:       https://github.com/DavidEichmann/roota#readme
+bug-reports:    https://github.com/DavidEichmann/roota/issues
+author:         Author name here
+maintainer:     EichmannD@gmail.com
+copyright:      2019 David Eichmann
+license:        AllRightsReserved
+license-file:   LICENSE
+build-type:     Simple
+cabal-version:  >= 1.10
+extra-source-files:
+    ChangeLog.md
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/DavidEichmann/roota
+
+executable client
+  default-language: Haskell2010
+  main-is: Main.hs
+  hs-source-dirs:
+      roota-client
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall
+  build-depends:
+      roota
+    , aeson           == 1.4.*
+    , containers
+    , miso            == 1.4.0.0
+  if impl(ghcjs)
+    build-depends:
+        ghcjs-base
+  else
+    build-depends:
+        jsaddle-warp
+      , base            >=4.7 && <5
+      , warp
+  other-modules:
+      Bulma
+    , Component
+    , UI
+    , UI.Login
+    , UI.LoggedIn
+
+executable server
+  default-language: Haskell2010
+  main-is: Main.hs
+  hs-source-dirs:
+      roota-server
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  other-modules:
+    ServerLib
+  build-depends:
+      roota
+    , aeson           == 1.4.*
+    , bytestring
+    , cereal
+    , containers
+    , deepseq
+    , websockets     
+  if impl(ghcjs)
+    build-depends:
+        ghcjs-base
+  else
+    build-depends:
+        base            >= 4.7 && < 5
+
+library
+  default-language: Haskell2010
+  ghc-options: -Wall -fprof-auto
+  hs-source-dirs:
+    roota-common
+  build-depends:
+      aeson           == 1.4.*
+    , containers
+    , deepseq
+  if impl(ghcjs)
+    build-depends:
+        ghcjs-base
+  else
+    build-depends:
+        base            >= 4.7 && < 5
+  exposed-modules:
+      Common
+  
